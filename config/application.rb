@@ -13,7 +13,11 @@ module App
 
     config.generators do |g|
       g.assets false
-      g.test_framework false
+      g.test_framework :rspec,
+        controller_specs: false,
+        view_specs: false,
+        helper_specs: false,
+        routing_specs: false
     end
   end
 end
