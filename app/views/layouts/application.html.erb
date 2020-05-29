@@ -6,9 +6,9 @@
     <%= render 'layouts/shim' %>
   </head>
   <body>
-    <%= render 'layouts/loading' %>
+    
     <div id="page">
-      <%= render 'layouts/header' %>
+      
       <% flash.each do |message_type, message| %>
         <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
       <% end %>
