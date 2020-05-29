@@ -9,7 +9,7 @@ RSpec.describe "静的ページ", type: :request do
     end
   end
 
-  describe "カフェログとは？ページ" do
+  describe "ABOUTページ" do
     it "正常なレスポンスを返すこと" do
       get about_path
       expect(response).to be_success
@@ -17,7 +17,7 @@ RSpec.describe "静的ページ", type: :request do
     end
   end
 
-  describe "利用規約ページ" do
+  describe "Terms of serviceページ" do
     it "正常なレスポンスを返すこと" do
       get use_of_terms_path
       expect(response).to be_success
