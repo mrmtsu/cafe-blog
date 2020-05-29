@@ -1,0 +1,520 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+// ミックスイン
+@mixin box_sizing {
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:         border-box;
+}
+
+// フッター
+footer {
+  margin-top: 45px;
+  padding-top: 5px;
+  border-top: 1px solid #eaeaea;
+  color: #777;
+  small {
+    float: center;
+  }
+}
+
+/* CSS Document */
+html{
+	font-size: 62.5%; /*16px×62.5%=10px*/
+}
+body{
+	color: #333;
+	font-family: 'Noto Sans JP', sans-serif;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 1.6rem;
+	font-feature-settings: "palt";
+	letter-spacing: 0.01em;
+	-webkit-font-smoothing:antialiased;
+	-moz-osx-font-smoothing:grayscale;
+}
+a{
+	color: #333;
+	text-decoration:none;
+}
+ul {
+  list-style: none;
+}
+img{
+	max-width: 100%;
+	height: auto;
+}
+
+
+/*--------------------
+
+* utility
+
+----------------------*/
+.btn-trigger{
+	display: none;
+}
+.opacity{
+	opacity: 0.6;
+}
+.top h2{
+	font-family: 'Quicksand', sans-serif;
+	font-weight: 400;
+	font-size: 4rem;
+	position: relative;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.top h2:before {
+	content: '';
+	position: absolute;
+	left: 50%;
+	bottom: -16px;
+	display: inline-block;
+	width: 40px;
+	height: 2px;
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%);/*位置調整*/
+	background-color: #333;
+}
+.section-wrapper{
+	max-width: 1366px;
+	padding: 0 80px;
+	margin: 0 auto;
+}
+.decoration{
+	position: absolute;
+}
+
+/*----more btn----*/
+	.btn-wrapper{
+		text-align: right;
+	}
+.btn{
+	position: relative;
+	display: inline-block;
+	width: 160px;
+	height: 32px;
+	line-height: 2;
+	padding: 10px 0 0 10px;
+}
+.btn::after{
+	content: '';
+	display: inline-block;
+	height: 100%;
+	width: 100%;
+	background:repeating-linear-gradient(-45deg, #fff, #fff 5px, #333 5px, #333 6px);
+}
+.btn-content{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 160px;
+	height: 32px;
+	z-index: 1;
+	border-bottom: 1px solid #333;
+	border-right: 1px solid #333;
+	background-color: #fff;
+	font-family:  'Quicksand', sans-serif;
+	font-weight: 400;
+	text-align: center;
+	transition: all .3s;
+}
+.btn:hover .btn-content{
+	top: 10px;
+	left: 10px;
+}
+/*---in view アニメーション----*/
+/*フェードイン*/
+.fadeIn{
+	opacity: 0;
+    -webkit-transition: all 1.0s;
+    -moz-transition: all 1.0s;
+    -o-transition: all 1.0s;
+    -ms-transition: all 1.0s;
+    transition: all 1.0s;
+    transition-timing-function:ease-out;
+}
+.fade-in{
+	opacity: 1.0;
+    transition-delay:0.05s;
+}
+/*下から*/
+.fadeUp{
+	opacity: 0;
+    -webkit-transition: all 1.0s;
+    -moz-transition: all 1.0s;
+    -o-transition: all 1.0s;
+    -ms-transition: all 1.0s;
+    transition: all 1.0s;
+    transition-timing-function:ease-out;
+    transform: translateY(30px);
+}
+.fade-up{
+	opacity: 1.0;
+    transform: translateY(0);
+    transition-delay:0.1s;
+}
+.fadeUp_delay{
+	opacity: 0;
+    -webkit-transition: all 1.0s;
+    -moz-transition: all 1.0s;
+    -o-transition: all 1.0s;
+    -ms-transition: all 1.0s;
+    transition: all 1.0s;
+    transition-timing-function:ease-out;
+    transform: translateY(30px);
+}
+.fade-up_delay{
+	opacity: 1.0;
+    transform: translateY(0);
+    transition-delay:0.2s;
+}
+/*右から*/
+.fadeRight{
+	opacity: 0;
+    -webkit-transition: all 1.0s;
+    -moz-transition: all 1.0s;
+    -o-transition: all 1.0s;
+    -ms-transition: all 1.0s;
+    transition: all 1.0s;
+    transition-timing-function:ease-out;
+    transform: translateX(100px);
+}
+.fade-right{
+	opacity: 1.0;
+    transform: translateX(0);
+    transition-delay:0.2s;
+}
+.fadeRight_delay{
+	opacity: 0;
+    -webkit-transition: all 1.0s;
+    -moz-transition: all 1.0s;
+    -o-transition: all 1.0s;
+    -ms-transition: all 1.0s;
+    transition: all 1.0s;
+    transition-timing-function:ease-out;
+    transform: translateX(100px);
+}
+.fade-right_delay{
+	opacity: 1.0;
+    transform: translateX(0);
+    transition-delay:0.4s;
+}
+/*左から*/
+.fadeLeft{
+	opacity: 0;
+    -webkit-transition: all 1.0s;
+    -moz-transition: all 1.0s;
+    -o-transition: all 1.0s;
+    -ms-transition: all 1.0s;
+    transition: all 1.0s;
+    transition-timing-function:ease-out;
+    transform: translateX(-100px);
+}
+.fade-left{
+	opacity: 1.0;
+    transform: translateX(0);
+    transition-delay:0.1s;
+}
+.fadeLeft_delay{
+	opacity: 0;
+    -webkit-transition: all 1.0s;
+    -moz-transition: all 1.0s;
+    -o-transition: all 1.0s;
+    -ms-transition: all 1.0s;
+    transition: all 1.0s;
+    transition-timing-function:ease-out;
+    transform: translateX(-100px);
+}
+.fade-left_delay{
+	opacity: 1.0;
+    transform: translateX(0);
+    transition-delay:0.2s;
+}
+
+/*--------------------
+
+*loading
+
+----------------------*/
+.loading {
+	position: fixed;
+	z-index: 100;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: #fff;
+}
+.loading-animation{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+
+.start {
+	stroke: #fff;
+	stroke-dasharray: 600;
+	stroke-width: 0.1;
+	fill: transparent;
+	animation-name: lineAndFill;
+	animation-duration: 2s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+	animation-fill-mode: forwards;
+	animation-direction:alternate;
+}
+@keyframes lineAndFill {
+	0% {
+		stroke-dashoffset: 600;
+	}
+	80% {
+		stroke-dashoffset: 0;
+	/*        fill: transparent;*/
+	}
+	100% {
+		fill: #000;
+	}
+}
+.start02{
+  opacity: 0;
+  animation: fadeIn 1000ms ease-out forwards;
+}
+@keyframes fadeIn {
+	0% {
+		opacity:0;
+	 }
+	50%{
+		opacity:0;	  
+	}
+	100% {
+		opacity:1;
+	}
+}
+.start03 {
+	width: 120px;
+	margin: 40px auto 0 auto;
+	font-size: 1.4rem;
+	font-weight: 300;
+	color: #000;
+	box-sizing:border-box;
+	text-align:center;
+	animation-name: animeLoading;
+	animation-duration: 0.5s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+	animation-fill-mode: forwards;
+	animation-direction:alternate;
+	-webkit-animation-name: animeLoading;
+	-webkit-animation-duration: 0.5s;
+	-webkit-animation-timing-function: ease-in-out;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-fill-mode: forwards;
+	-webkit-animation-direction:alternate;
+}
+@keyframes animeLoading{
+	0%  {opacity:1;}
+	100%{opacity:0;}
+}
+@-webkit-keyframes animeLoading{
+	0%  {opacity:1;}
+	100%{opacity:0;}
+}  
+/*--------------------
+
+* mainvisual
+
+----------------------*/
+.mainvisual{
+	position: relative;
+	height: 90vh;
+	padding-left: 80px;
+	margin: 0 0 0 auto;
+}
+.key-img {
+  height: 90vh;
+  width: 77vw;
+  box-sizing: border-box;
+  background-image: url(/images/top.jpeg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
+  padding: 40px;
+  margin: 0 0 0 auto;
+}
+.key-img::before{
+	content: '';
+	display: block;
+	height: 100%;
+	width: 100%;
+	box-sizing: border-box;
+	border: 2px solid #fff;
+}
+.mainvisual-left{
+	position: absolute;
+	top: 50%;
+	left: 10%;
+	transform: translateY(-50%);
+	background-color: #fff;
+	box-sizing: border-box;
+	padding: 80px 80px 80px 80px;
+}
+.mainvisual-left h1{
+	margin-bottom: 28px;
+}
+.mainvisual-left h1 img{
+	display: block;
+	margin: 0 auto;
+}
+.mainvisual-left p{
+	font-family: 'Quicksand', sans-serif;
+	font-size: 1.2rem;
+	font-weight: 400;
+	line-height: 2.4;
+}
+.mainvisual-left .fas{
+	padding-left: 10px;
+}
+
+/* アニメーション設定 */
+.scrolldown{
+	position: relative
+}
+.arrowWrap {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 225px
+}
+.arrowInner{
+	display: flex;
+}
+.arrowInner p {
+	height: 20px;
+	margin-top: 80px;
+	font-size: 12px;
+	font-family: 'Quicksand', sans-serif;
+	font-weight: 500;
+	-webkit-transform: rotate(90deg);
+	transform: rotate(90deg);
+}
+.arrow {
+  width: 1px;
+  height: 150px;
+  margin: 75px 8px 0 0;
+/*  background-color: #eee;*/
+  position: relative;
+  overflow: hidden;
+}
+.arrow::before {
+  content: '';
+  width: 1px;
+  height: 150px;
+  margin: 75px 8px 0 0;
+  background-color: #000;
+  position: absolute;
+  top: -225px;
+  left: 0;
+  -webkit-animation: arrow 2.5s ease 0s infinite normal;
+  animation: arrow 2.5s ease 0s infinite normal;
+}
+@keyframes arrow {
+  0% {
+    -webkit-transform: translate3d(-50%, 0, 0);
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  60% {
+    -webkit-transform: translate3d(-50%, 150px, 0);
+    transform: translate3d(-50%, 150px, 0);
+  }
+
+  100% {
+    -webkit-transform: translate3d(-50%, 150px, 0);
+    transform: translate3d(-50%, 150px, 0);
+  }
+}
+
+/*--------------------
+
+* header-nav
+
+----------------------*/
+.top-header{
+	background: #fff;
+	width: 100%;
+	box-sizing: border-box;
+	z-index: 50;
+	padding: 40px 80px;
+	margin-bottom: 80px;
+}
+.gnav-list{
+	display: flex;
+	justify-content: flex-end;
+}
+.gnav-item{
+	font-family: 'Quicksand', sans-serif;
+	font-weight: 400;
+	margin-right: 32px;
+}
+.gnav-item.gnav-sns{
+	font-size: 2rem;
+	margin-right: 16px;
+}
+.gnav-item:last-of-type{
+	margin-right: 0;
+}
+.gnav-item.gnav-main a{
+	position: relative;
+  	display: inline-block;
+  	text-decoration: none;
+}
+.gnav-item.gnav-main a::after{
+	position: absolute;
+	bottom: -8px;
+	left: 0;
+	content: '';
+	width: 100%;
+	height: 1px;
+	background: #333;
+	transform: scale(0, 1);
+	transform-origin: left top;
+	transition: transform .3s;
+}
+.gnav-item.gnav-main a:hover::after{
+	transform: scale(1, 1);
+}
+
+/*--header_cange--*/
+.header-change{
+	display: flex;
+	background: #fff;
+	width: 100%;
+	box-sizing: border-box;
+	justify-content: space-between;
+	z-index: 50;
+	border-bottom: solid 1px #f5f5f5;
+	padding: 15px 40px 15px 80px;
+	position: fixed;
+    top: -80px;
+    transition: .5s;
+}
+.header-change .gnav{
+	margin: auto 0;
+}
+.header-change .gnav-item{
+	font-size: 1.6rem;
+	margin-right: 24px;
+}
+.header-change .gnav-item.gnav-sns{
+	font-size: 1.6rem;
+	margin-right: 12px;
+}
+.header-change.show{
+    top: 0;
+}
+
