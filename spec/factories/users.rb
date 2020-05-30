@@ -4,7 +4,11 @@ FactoryBot.define do
     sequence(:email) { |n| "example#{n}@example.com" }
     password { "foobar" }
     password_confirmation { "foobar" }
-    introduction { "カフェ巡りが趣味です！よろしくお願いします。" }
+    introduction { "初めまして" }
     sex { "男性" }
+
+    trait :admin do
+      admin { true }
+    end
   end
 end
