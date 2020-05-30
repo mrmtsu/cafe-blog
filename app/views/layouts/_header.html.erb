@@ -4,7 +4,22 @@
       <li class="gnav-item gnav-main"><%= link_to 'HOME', root_url %></li>
       <li class="gnav-item gnav-main"><%= link_to 'ABOUT', about_path %></li>
       <li class="gnav-item gnav-main"><%= link_to 'TERMS', use_of_terms_path %></li>
-      <li class="gnav-item gnav-main"><%= link_to 'SIGN UP', signup_path %></li>
+      <% if logged_in? %>
+        <li><%= link_to 'USERLIST', users_path %></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            ACCOUNT <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'PROFILE', current_user %></li>
+            <li class="divider"></li>
+            <li><%= link_to 'LOGOUT', logout_path, method: :delete %></li>
+          </ul>
+        </li>
+      <% else %>
+        <li class="gnav-item gnav-main"><%= link_to 'SIGN UP', signup_path %></li>
+        <li class="gnav-item gnav-main"><%= link_to 'LOGIN', login_path %></li>
+      <% end %>
       <li class="gnav-item gnav-main"><a href="access/index.html">ACCESS</a></li>
       <li class="gnav-item gnav-main"><a href="contact/index.html">CONTACT</a></li>
       <li class="gnav-item gnav-sns"><a href="" target="_blank"><i class="fab fa-instagram faa-wrench animated-hover"></i></a></li>
