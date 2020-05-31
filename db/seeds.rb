@@ -13,3 +13,13 @@ User.create!(name:  name,
              password:              password,
              password_confirmation: password)
 end
+
+10.times do |n|
+  Article.create!(name: Faker::Food.dish,
+                  description: "カフェラテが美味しい",
+                  place: "大阪",
+                  reference: "https://kitasandocoffee.com/#hero",
+                  popularity: 5,
+                  cafe_memo: "またいきたい！",
+                  user_id: 1)
+end

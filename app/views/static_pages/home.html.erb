@@ -1,6 +1,20 @@
 <%= render 'layouts/loading' %>
 <%= render 'layouts/header' %>
-<center>
-  <h1>カフェログへようこそ！</h1>
-  <p>行きたいお店、もう迷わない！</p>
-</center>
+<% if logged_in? %>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <h3>みんなの投稿 (<%= @feed_items.count %>)</h3>
+        <%= render 'shared/feed' %>
+      </div>
+      <div class="col-md-3">
+        <p><%= link_to "新しい投稿を作る", new_article_path, class: "btn btn-primary btn-lg btn-record" %></p>
+  	  </div>
+    </div>
+  </div>
+<% else %>
+  <center>
+    <h1>カフェログへようこそ！</h1>
+    <p>行きたいお店、もう迷わない！</p>
+  </center>
+<% end %>
