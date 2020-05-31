@@ -1,0 +1,24 @@
+<% provide(:title, "#{@article.name}") %>
+<%= render 'layouts/header' %>
+<div class="container">
+  <div class="row">
+    <h2 class="article-name"><%= @article.name %></h2>
+    <div class="change-article">
+      <% if current_user == @article.user %>
+        <%= link_to "編集", edit_article_path(@article), class: 'edit-article' %>　
+      <% end %>
+      <% if current_user.admin? || (current_user == @article.user) %>
+        <%= link_to "削除", article_path(@article), method: :delete, class: 'delete-article',
+                                      data: { confirm: "本当に削除しますか？" } %>
+      <% end %>
+    </div>
+    <h4><%= @article.description %></h4>
+    <h4 class="article-reference">HP：<%= link_to "#{@article.reference}", @article.reference, target: "_blank" %></h4>
+    <h4 class="article-place">場所：<%= @article.place %></h4>
+    <div class="show-article-other-info">
+      <div class="article-info">
+        <h5>おすすめ度：</h5><h4><%= @article.popularity %></h4>
+      </div>
+    </div>
+  </div>
+</div>
