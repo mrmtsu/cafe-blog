@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "Articles", type: :system do
   let!(:user) { create(:user) }
   let!(:article) { create(:article, user: user) }
+  let!(:image) { create(:image, article: article) }
 
   describe "投稿登録ページ" do
     before do
@@ -20,6 +21,7 @@ RSpec.describe "Articles", type: :system do
       end
 
       it "入力部分に適切なラベルが表示されること" do
+        expect(page).to have_content '画像'
         expect(page).to have_content '店名'
         expect(page).to have_content '説明'
         expect(page).to have_content '場所'
@@ -33,9 +35,10 @@ RSpec.describe "Articles", type: :system do
       it "有効な情報で投稿登録を行うと投稿登録成功のフラッシュが表示されること" do
         fill_in "店名", with: "店名"
         fill_in "説明", with: "カフェラテがおいしい"
-        fill_in "場所", with: "大阪"
+        select "北海道", from: "article[place_id]"
         fill_in "URL", with: "https://kitasandocoffee.com/#hero"
         fill_in "おすすめ度", with: 5
+        attach_file "article[images_attributes][0][src]", "#{Rails.root}/spec/fixtures/test_article.jpg"
         click_button "登録する"
         expect(page).to have_content "投稿が登録されました！"
       end
@@ -43,9 +46,10 @@ RSpec.describe "Articles", type: :system do
       it "無効な情報で投稿登録を行うと投稿登録失敗のフラッシュが表示されること" do
         fill_in "店名", with: ""
         fill_in "説明", with: "カフェラテがおいしい"
-        fill_in "場所", with: "大阪"
+        select "北海道", from: "article[place_id]"
         fill_in "URL", with: "https://kitasandocoffee.com/#hero"
         fill_in "おすすめ度", with: 5
+        attach_file "article[images_attributes][0][src]", "#{Rails.root}/spec/fixtures/test_article.jpg"
         click_button "登録する"
         expect(page).to have_content "店名を入力してください"
       end
@@ -66,7 +70,7 @@ RSpec.describe "Articles", type: :system do
       it "投稿情報が表示されること" do
         expect(page).to have_content article.name
         expect(page).to have_content article.description
-        expect(page).to have_content article.place
+        expect(page).to have_content article.place.name
         expect(page).to have_content article.reference
         expect(page).to have_content article.popularity
       end
@@ -98,14 +102,15 @@ RSpec.describe "Articles", type: :system do
       it "有効な更新" do
         fill_in "店名", with: "編集：店名"
         fill_in "説明", with: "編集：カフェラテがおいしい"
-        fill_in "場所", with: "編集：大阪"
+        select "北海道", from: "article[place_id]"
         fill_in "URL", with: "https://kitasandocoffee.com/#hero"
         fill_in "おすすめ度", with: 1
+        attach_file "article[images_attributes][0][src]", "#{Rails.root}/spec/fixtures/test_article2.jpg"
         click_button "更新する"
         expect(page).to have_content "投稿情報が更新されました！"
         expect(article.reload.name).to eq "編集：店名"
-        expect(article.reload.description).to eq "カフェラテがおいしい"
-        expect(article.reload.place).to eq 0
+        expect(article.reload.description).to eq "編集：カフェラテがおいしい"
+        expect(article.reload.place.name).to eq "北海道"
         expect(article.reload.reference).to eq "https://kitasandocoffee.com/#hero"
         expect(article.reload.popularity).to eq 1
       end

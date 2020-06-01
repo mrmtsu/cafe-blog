@@ -1,9 +1,11 @@
 class ArticlesController < ApplicationController
   before_action :logged_in_user
   before_action :correct_user, only: [:edit, :update]
+  before_action :set_article, except: [:new, :create]
 
   def new
     @article = Article.new
+    @article.images.new
   end
 
   def create
@@ -50,11 +52,15 @@ class ArticlesController < ApplicationController
   private
 
     def article_params
-      params.require(:article).permit(:name, :discription, :place, :reference, :popularity, :cafe_memo)
+      params.require(:article).permit(:name, :description, :place_id, :reference, :popularity, :cafe_memo, images_attributes:  [:src, :_destroy, :id])
     end
 
     def correct_user
       @article = current_user.articles.find_by(id: params[:id])
       redirect_to root_url if @article.nil?
+    end
+
+    def set_article
+      @article = Article.find(params[:id])
     end
 end

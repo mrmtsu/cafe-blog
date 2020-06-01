@@ -4,6 +4,8 @@ RSpec.describe "投稿編集", type: :request do
   let!(:user) { create(:user) }
   let!(:other_user) { create(:user) }
   let!(:article) { create(:article, user: user) }
+  let(:src2_path) { File.join(Rails.root, 'spec/fixtures/test_article2.jpg') }
+  let(:src2) { Rack::Test::UploadedFile.new(src2_path) }
 
   context "認可されたユーザーの場合" do
     it "レスポンスが正常に表示されること(+フレンドリーフォワーディング)" do
@@ -12,9 +14,10 @@ RSpec.describe "投稿編集", type: :request do
       expect(response).to redirect_to edit_article_url(article)
       patch article_path(article), params: { article: { name: "店名",
                                                         description: "カフェラテがおいしい",
-                                                        place: "大阪",
+                                                        place_id: 1,
                                                         reference: "https://kitasandocoffee.com/#hero",
-                                                        popularity: 5 } }
+                                                        popularity: 5,
+                                                        src: src2 } }
       redirect_to article
       follow_redirect!
       expect(response).to render_template('articles/show')
@@ -28,7 +31,7 @@ RSpec.describe "投稿編集", type: :request do
       expect(response).to redirect_to login_path
       patch article_path(article), params: { article: { name: "店名",
                                                         description: "カフェラテがおいしい",
-                                                        place: "大阪",
+                                                        place_id: 1,
                                                         reference: "https://kitasandocoffee.com/#hero",
                                                         popularity: 5 } }
       expect(response).to have_http_status "302"
@@ -44,7 +47,7 @@ RSpec.describe "投稿編集", type: :request do
       expect(response).to redirect_to root_path
       patch article_path(article), params: { article: { name: "店名",
                                                         description: "カフェラテがおいしい",
-                                                        place: "大阪",
+                                                        place_id: 1,
                                                         reference: "https://kitasandocoffee.com/#hero",
                                                         popularity: 5 } }
       expect(response).to have_http_status "302"

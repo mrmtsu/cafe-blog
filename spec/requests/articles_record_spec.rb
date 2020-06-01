@@ -3,6 +3,8 @@ require "rails_helper"
 RSpec.describe "投稿登録", type: :request do
   let!(:user) { create(:user) }
   let!(:article) { create(:article, user: user) }
+  let(:src_path) { File.join(Rails.root, 'spec/fixtures/test_article.jpg') }
+  let(:src) { Rack::Test::UploadedFile.new(src_path) }
 
   context "ログインしているユーザーの場合" do
     before do
@@ -20,9 +22,10 @@ RSpec.describe "投稿登録", type: :request do
       expect {
         post articles_path, params: { article: { name: "店名",
                                                  description: "カフェラテがおいしい",
-                                                 place: "場所",
+                                                 place_id: 1,
                                                  reference: "https://kitasandocoffee.com/#hero",
-                                                 popularity: 5 } }
+                                                 popularity: 5,
+                                                 src: src } }
       }.to change(Article, :count).by(1)
       follow_redirect!
       expect(response).to render_template('articles/show')
@@ -32,9 +35,10 @@ RSpec.describe "投稿登録", type: :request do
       expect {
         post articles_path, params: { article: { name: "",
                                                  description: "カフェラテがおいしい",
-                                                 place: "場所",
+                                                 place_id: 1,
                                                  reference: "https://kitasandocoffee.com/#hero",
-                                                 popularity: 5 } }
+                                                 popularity: 5,
+                                                 src: src } }
       }.not_to change(Article, :count)
       expect(response).to render_template('articles/new')
     end

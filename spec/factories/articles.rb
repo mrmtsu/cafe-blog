@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :article do
     name { "ラテアート" }
     description { "カフェラテがおいしい" }
-    place { "大阪" }
+    place_id { 1 }
     reference { "https://kitasandocoffee.com/#hero" }
     popularity { 5 }
     association :user

@@ -6,6 +6,33 @@
       <%= form_for(@article) do |f| %>
         <%= render 'shared/error_messages', object: f.object %>
         <div class = 'form-group'>
+          <%= f.label :src %>　<span class="input-need">※必須</span>
+          <div id="image-box">
+            <div id="previews">
+              <% if @article.persisted? %>
+                <% @article.images.each_with_index do |image, i| %>
+                  <%= image_tag image.src.url, data: { index: i }, width: "100", height: '100' %>
+                <% end %>
+              <% end %>
+            </div>
+            <%= f.fields_for :images do |image| %>
+              <div data-index="<%= image.index %>" class="js-file_group">
+                <%= image.file_field :src, class: 'js-file' %><br>
+                <span class="js-remove">削除</span>
+              </div>
+              <% if @article.persisted? %>
+                <%= image.check_box :_destroy, data:{ index: image.index }, class: 'hidden-destroy' %>
+              <% end %>
+            <% end %>
+            <% if @article.persisted? %>
+              <div data-index="<%= @article.images.count %>" class="js-file_group">
+                <%= file_field_tag :src, name: "article[images_attributes][#{@article.images.count}][src]", class: 'js-file' %>
+                <div class="js-remove">削除</div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <div class = 'form-group'>
           <%= f.label :name %>　<span class="input-need">※必須</span>
           <%= f.text_field :name, class: 'form-control', id: 'article_name' %>
         </div>
@@ -14,8 +41,8 @@
           <%= f.text_field :description, size: "60x4", class: 'form-control', id: 'article_description' %>
         </div>
         <div class = 'form-group'>
-          <%= f.label :place %> [場所]　<span class="input-unneed">※任意</span>
-          <%= f.text_field :place, class: 'form-control', id: 'article_place' %>
+          <%= f.label :place_id %> [場所]　<span class="input-unneed">※任意</span>
+          <%= f.collection_select :place_id, Place.all, :id, :name, {prompt: "選択してください"}, class: 'form-control', id: 'article_place' %>
         </div>
         <div class = 'form-group'>
           <%= f.label :reference %>　<span class="input-unneed">※任意</span>
