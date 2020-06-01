@@ -711,3 +711,9 @@ h2.article-name {
 .edit-article .delete-article {
   font-size: 15px;
 }
+
+.article-image img {
+  max-width: 100px;
+  height: 100px;
+  box-sizing: border-box;
+}

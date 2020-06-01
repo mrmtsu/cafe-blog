@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe "Users", type: :system do
   let!(:user) { create(:user) }
   let!(:admin_user) { create(:user, :admin) }
+  let!(:article) { create(:article, user: user) }
+  let!(:image) { create(:image, article: article) }
 
   describe "ユーザー一覧ページ" do
     context "管理者ユーザーの場合" do
@@ -115,6 +117,7 @@ RSpec.describe "Users", type: :system do
       before do
         login_for_system(user)
         create_list(:article, 10, user: user)
+        create_list(:image, 10, article: article)
         visit user_path(user)
       end
  
@@ -145,7 +148,7 @@ RSpec.describe "Users", type: :system do
           expect(page).to have_link article.name
           expect(page).to have_content article.description
           expect(page).to have_content article.user.name
-          expect(page).to have_content article.place
+          expect(page).to have_content article.place.name
           expect(page).to have_content article.popularity
         end
       end
