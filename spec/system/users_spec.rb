@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe "Users", type: :system do
   let!(:user) { create(:user) }
   let!(:admin_user) { create(:user, :admin) }
-  let!(:article) { create(:article, user: user) }
+  let!(:other_user) { create(:user) }
+  let!(:article) { create(:article, :images, user: user) }
   let!(:image) { create(:image, article: article) }
 
   describe "ユーザー一覧ページ" do
@@ -146,6 +147,7 @@ RSpec.describe "Users", type: :system do
       it "投稿の情報が表示されていることを確認" do
         Article.take(5).each do |article|
           expect(page).to have_link article.name
+          expect(page).to have_content article.images.src.url
           expect(page).to have_content article.description
           expect(page).to have_content article.user.name
           expect(page).to have_content article.place.name
@@ -155,6 +157,18 @@ RSpec.describe "Users", type: :system do
 
       it "投稿のページネーションが表示されていることを確認" do
         expect(page).to have_css "div.pagination"
+      end
+    end
+
+    context "ユーザーのフォロー/アンフォロー処理", js: true do
+      it "ユーザーのフォロー/アンフォローができること" do
+        login_for_system(user)
+        visit user_path(other_user)
+        expect(page).to have_button 'フォローする'
+        click_button 'フォローする'
+        expect(page).to have_button 'フォロー中'
+        click_button 'フォロー中'
+        expect(page).to have_button 'フォローする'
       end
     end
   end
