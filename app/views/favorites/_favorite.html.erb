@@ -1,0 +1,14 @@
+<% @article = Article.find(favorite.article_id) %>
+<% user = @article.user %>
+<li id="favorite-<%= favorite.id %>">
+  <div class="row favorite-article">
+    <div class="col-md-2">
+      <%= link_to (image_tag @article.images.first.src.url), article_path(@article.id), class: 'article-image' %>
+    </div>
+    <div class="col-md-7">
+      <p><%= link_to @article.name, article_path(@article) %></p>
+      <p><%= @article.description %></p>
+      <p class="article-user">articled by <%= link_to user.name, user_path(user) %></p>
+    </div>
+  </div>
+</li>

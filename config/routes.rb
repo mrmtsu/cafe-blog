@@ -13,4 +13,7 @@ Rails.application.routes.draw do
   get    :login,     to: 'sessions#new'
   post   :login,     to: 'sessions#create'
   delete :logout,    to: 'sessions#destroy'
+  get :favorites, to: 'favorites#index'
+  post   "favorites/:article_id/create"  => "favorites#create"
+  delete "favorites/:article_id/destroy" => "favorites#destroy"
 end

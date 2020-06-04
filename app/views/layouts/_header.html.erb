@@ -5,6 +5,7 @@
       <li class="gnav-item gnav-main"><%= link_to 'ABOUT', about_path %></li>
       <li class="gnav-item gnav-main"><%= link_to 'TERMS', use_of_terms_path %></li>
       <% if logged_in? %>
+        <li><%= link_to 'FAVORITE', favorites_path %></li>
         <li><%= link_to 'USERLIST', users_path %></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
