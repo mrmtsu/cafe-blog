@@ -1,6 +1,7 @@
 class Article < ApplicationRecord
   belongs_to :user
   has_many :favorites, dependent: :destroy
+  has_many :comments, dependent: :destroy
   has_many   :images, dependent: :destroy
   accepts_nested_attributes_for :images, allow_destroy: true
   default_scope -> { order(created_at: :desc) }
@@ -19,6 +20,10 @@ class Article < ApplicationRecord
 
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to_active_hash :place
+
+  def feed_comment(article_id)
+    Comment.where("article_id = ?", article_id)
+  end
 
   private
 
