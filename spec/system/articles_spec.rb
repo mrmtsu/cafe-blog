@@ -2,8 +2,10 @@ require 'rails_helper'
 
 RSpec.describe "Articles", type: :system do
   let!(:user) { create(:user) }
+  let!(:other_user) { create(:user) }
   let!(:article) { create(:article, user: user) }
   let!(:image) { create(:image, article: article) }
+  let!(:comment) { create(:comment, user_id: user.id, article: article) }
 
   describe "投稿登録ページ" do
     before do
@@ -73,6 +75,33 @@ RSpec.describe "Articles", type: :system do
         expect(page).to have_content article.place.name
         expect(page).to have_content article.reference
         expect(page).to have_content article.popularity
+      end
+    end
+
+    context "コメントの登録＆削除" do
+      it "自分の投稿に対するコメントの登録＆削除が正常に完了すること" do
+        login_for_system(user)
+        visit article_path(article)
+        fill_in "comment_content", with: "今日の味付けは大成功"
+        click_button "コメント"
+        within find("#comment-#{Comment.last.id}") do
+          expect(page).to have_selector 'span', text: user.name
+          expect(page).to have_selector 'span', text: '今日の味付けは大成功'
+        end
+        expect(page).to have_content "コメントを追加しました！"
+        click_link "削除", href: comment_path(Comment.last)
+        expect(page).not_to have_selector 'span', text: '今日の味付けは大成功'
+        expect(page).to have_content "コメントを削除しました"
+      end
+
+      it "別ユーザーの投稿のコメントには削除リンクが無いこと" do
+        login_for_system(other_user)
+        visit article_path(article)
+        within find("#comment-#{comment.id}") do
+          expect(page).to have_selector 'span', text: user.name
+          expect(page).to have_selector 'span', text: comment.content
+          expect(page).not_to have_link '削除', href: article_path(article)
+        end
       end
     end
   end
