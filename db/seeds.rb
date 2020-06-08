@@ -15,7 +15,7 @@ User.create!(name:  name,
 end
 
 10.times do |n|
-  Article.create!(name: Faker::Food.dish,
+  Article.create!(name: "カフェラテ",
                   description: "カフェラテが美味しい",
                   place_id: 1,
                   reference: "https://kitasandocoffee.com/#hero",
@@ -25,6 +25,9 @@ end
                   images_attributes: [
                                       { src: open("#{Rails.root}/public/images/top.jpeg")}
                   ])
+  article = Article.first
+  Log.create!(article_id: article.id,
+              content: article.cafe_memo)
 end
 
 # リレーションシップ

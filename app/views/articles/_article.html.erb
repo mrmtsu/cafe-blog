@@ -9,7 +9,11 @@
   <span class="description"><%= article.description %></span><br>
   <span class="place">場所：<%= article.place.name %></span><br>
   <span class="popularity">おすすめ度：<%= article.popularity %></span><br>
-  <span class="reference"><%= link_to "HP", article.reference, target: :_blank %></span>
+  <span class="reference"><%= link_to "HP", article.reference, target: :_blank %></span><br>
+  <% if current_user == article.user %>
+    <%= render "logs/new_form_mini" %>
+  <% end %>
+  <span class="cafe_times">行った回数：<%= article.logs.count %>回　</span>
   <span class="timestamp">
     <%= time_ago_in_words(article.created_at) %>前に投稿
   </span>
