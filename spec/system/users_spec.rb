@@ -124,11 +124,11 @@ RSpec.describe "Users", type: :system do
       end
  
       it "「プロフィール」の文字列が存在することを確認" do
-        expect(page).to have_content 'プロフィール'
+        expect(page).to have_content 'PROFILE'
       end
  
       it "正しいタイトルが表示されることを確認" do
-        expect(page).to have_title full_title('プロフィール')
+        expect(page).to have_title full_title('PROFILE')
       end
   
       it "ユーザー情報が表示されることを確認" do

@@ -10,6 +10,7 @@ ja:
       user: ユーザー
       article: 投稿
       comment: コメント
+      log: カフェログ
     attributes:
       user:
         id: ID
@@ -36,8 +37,11 @@ ja:
         src: 画像
       comment:
         user_id: コメント投稿者のID
-        article_id: コメントされた料理のID
+        article_id: コメントされた投稿のID
         content: コメント
+      log:
+        article_id: カフェログをつける投稿のID
+        content: メモ
   date:
     abbr_day_names:
     - 日
