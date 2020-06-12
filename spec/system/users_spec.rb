@@ -5,8 +5,7 @@ RSpec.describe "Users", type: :system do
   let!(:admin_user) { create(:user, :admin) }
   let!(:other_user) { create(:user) }
   let!(:article) { create(:article, :images, user: user) }
-  let!(:image) { create(:image, article: article) }
-  let!(:other_article) { create(:article, user: other_user) }
+  let!(:other_article) { create(:article, :images, user: other_user) }
 
   describe "ユーザー一覧ページ" do
     context "管理者ユーザーの場合" do
@@ -118,8 +117,7 @@ RSpec.describe "Users", type: :system do
     context "ページレイアウト" do
       before do
         login_for_system(user)
-        create_list(:article, 10, user: user)
-        create_list(:image, 10, article: article)
+        create_list(:article, 10, :images, user: user)
         visit user_path(user)
       end
  
@@ -128,7 +126,7 @@ RSpec.describe "Users", type: :system do
       end
  
       it "正しいタイトルが表示されることを確認" do
-        expect(page).to have_title full_title('PROFILE')
+        expect(page).to have_title full_title('プロフィール')
       end
   
       it "ユーザー情報が表示されることを確認" do
@@ -148,7 +146,6 @@ RSpec.describe "Users", type: :system do
       it "投稿の情報が表示されていることを確認" do
         Article.take(5).each do |article|
           expect(page).to have_link article.name
-          expect(page).to have_content article.images.src.url
           expect(page).to have_content article.description
           expect(page).to have_content article.user.name
           expect(page).to have_content article.place.name
@@ -158,18 +155,6 @@ RSpec.describe "Users", type: :system do
 
       it "投稿のページネーションが表示されていることを確認" do
         expect(page).to have_css "div.pagination"
-      end
-    end
-
-    context "ユーザーのフォロー/アンフォロー処理", js: true do
-      it "ユーザーのフォロー/アンフォローができること" do
-        login_for_system(user)
-        visit user_path(other_user)
-        expect(page).to have_button 'フォローする'
-        click_button 'フォローする'
-        expect(page).to have_button 'フォロー中'
-        click_button 'フォロー中'
-        expect(page).to have_button 'フォローする'
       end
     end
 
@@ -186,42 +171,6 @@ RSpec.describe "Users", type: :system do
         expect(user.favorite?(article)).to be_falsey
       end
 
-      it "トップページからお気に入り登録/解除ができること", js: true do
-        visit root_path
-        link = find('.like')
-        expect(link[:href]).to include "/favorites/#{article.id}/create"
-        link.click
-        link = find('.unlike')
-        expect(link[:href]).to include "/favorites/#{article.id}/destroy"
-        link.click
-        link = find('.like')
-        expect(link[:href]).to include "/favorites/#{article.id}/create"
-      end
-
-      it "ユーザー個別ページからお気に入り登録/解除ができること", js: true do
-        visit user_path(user)
-        link = find('.like')
-        expect(link[:href]).to include "/favorites/#{article.id}/create"
-        link.click
-        link = find('.unlike')
-        expect(link[:href]).to include "/favorites/#{article.id}/destroy"
-        link.click
-        link = find('.like')
-        expect(link[:href]).to include "/favorites/#{article.id}/create"
-      end
-
-      it "投稿個別ページからお気に入り登録/解除ができること", js: true do
-        visit article_path(article)
-        link = find('.like')
-        expect(link[:href]).to include "/favorites/#{article.id}/create"
-        link.click
-        link = find('.unlike')
-        expect(link[:href]).to include "/favorites/#{article.id}/destroy"
-        link.click
-        link = find('.like')
-        expect(link[:href]).to include "/favorites/#{article.id}/create"
-      end
-
       it "お気に入り一覧ページが期待通り表示されること" do
         visit favorites_path
         expect(page).not_to have_css ".favorite-article"
@@ -231,11 +180,9 @@ RSpec.describe "Users", type: :system do
         expect(page).to have_css ".favorite-article", count: 2
         expect(page).to have_content article.name
         expect(page).to have_content article.description
-        expect(page).to have_content "cooked by #{user.name}"
         expect(page).to have_link user.name, href: user_path(user)
         expect(page).to have_content other_article.name
         expect(page).to have_content other_article.description
-        expect(page).to have_content "cooked by #{other_user.name}"
         expect(page).to have_link other_user.name, href: user_path(other_user)
         user.unfavorite(other_article)
         visit favorites_path

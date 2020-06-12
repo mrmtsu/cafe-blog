@@ -3,8 +3,7 @@ require 'rails_helper'
 RSpec.describe "Articles", type: :system do
   let!(:user) { create(:user) }
   let!(:other_user) { create(:user) }
-  let!(:article) { create(:article, user: user) }
-  let!(:image) { create(:image, article: article) }
+  let!(:article) { create(:article, :images, user: user) }
   let!(:comment) { create(:comment, user_id: user.id, article: article) }
   let!(:log) { create(:log, article: article) }
 
@@ -142,7 +141,7 @@ RSpec.describe "Articles", type: :system do
         end
 
         it "別ユーザーの投稿にはログ登録フォームがないこと" do
-          create(:article, user: other_user)
+          create(:article, :images, user: other_user)
           login_for_system(user)
           user.follow(other_user)
           visit root_path
@@ -208,6 +207,36 @@ RSpec.describe "Articles", type: :system do
         click_button "更新する"
         expect(page).to have_content '店名を入力してください'
         expect(article.reload.name).not_to eq ""
+      end
+    end
+  end
+
+  context "検索機能" do
+    context "ログインしている場合" do
+      before do
+        login_for_system(user)
+        visit root_path
+      end
+
+      it "ログイン後のトップページに検索窓が表示されていること" do
+        expect(page).to have_css 'form#article_search'
+        visit root_path
+      end
+
+      it "検索ワードを入れずに検索ボタンを押した場合、投稿一覧が表示されること" do
+        fill_in 'q_name_cont', with: ''
+        click_button '検索'
+        expect(page).to have_css 'h3', text: "投稿一覧"
+        within find('.articles') do
+          expect(page).to have_css 'li', count: Article.count
+        end
+      end
+    end
+
+    context "ログインしていない場合" do
+      it "検索窓が表示されないこと" do
+        visit root_path
+        expect(page).not_to have_css 'form#article_search'
       end
     end
   end
