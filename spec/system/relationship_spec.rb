@@ -5,9 +5,9 @@ RSpec.describe "Relationships", type: :system do
   let!(:user2) { create(:user) }
   let!(:user3) { create(:user) }
   let!(:user4) { create(:user) }
-  let!(:article) { create(:article, user: user) }
-  let!(:article2) { create(:article, user: user2) }
-  let!(:article3) { create(:article, user: user3) }
+  let!(:article) { create(:article, :images, user: user) }
+  let!(:article2) { create(:article, :images, user: user2) }
+  let!(:article3) { create(:article, :images, user: user3) }
 
   describe "フォロー中(following一覧)ページ" do
     before do

@@ -1,7 +1,10 @@
 class ArticlesController < ApplicationController
   before_action :logged_in_user
   before_action :correct_user, only: [:edit, :update]
-  before_action :set_article, except: [:new, :create]
+
+  def index
+    @log = Log.new
+  end
 
   def new
     @article = Article.new
@@ -61,9 +64,5 @@ class ArticlesController < ApplicationController
     def correct_user
       @article = current_user.articles.find_by(id: params[:id])
       redirect_to root_url if @article.nil?
-    end
-
-    def set_article
-      @article = Article.find(params[:id])
     end
 end

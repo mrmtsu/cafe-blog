@@ -1,5 +1,6 @@
 <%= render 'layouts/loading' %>
 <%= render 'layouts/header' %>
+<%= render 'layouts/search' if logged_in? %>
 <% if logged_in? %>
   <div class="container">
     <div class="row">
